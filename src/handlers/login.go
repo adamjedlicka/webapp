@@ -25,7 +25,6 @@ func LoginPOST(w http.ResponseWriter, r *http.Request) {
 
 	authCookie, err := r.Cookie("auth")
 	if err != nil {
-		log.Println("Creating new auth cookie: ", authCookie.Value)
 		authCookie = &http.Cookie{
 			Name:  "auth",
 			Value: common.RandString(32),
