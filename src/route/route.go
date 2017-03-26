@@ -9,8 +9,9 @@ import (
 	"github.com/adamjedlicka/webapp/src/route/middleware"
 )
 
-// InitRoutes initializes all the basic routes
-func InitRoutes(r *mux.Router) {
+func New() *mux.Router {
+	r := mux.NewRouter()
+
 	r.HandleFunc("/", controller.IndexGET).Methods("GET")
 
 	r.Handle("/projects", middleware.MustLogin(http.HandlerFunc(controller.ProjectsGET))).Methods("GET")
@@ -22,4 +23,6 @@ func InitRoutes(r *mux.Router) {
 
 	// serve files from ./static/ directory without any special routing
 	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("./static/"))))
+
+	return r
 }

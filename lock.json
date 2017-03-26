@@ -1,6 +1,14 @@
 {
-    "memo": "f846ff20e418dca6c8a3b3357a32ef5c2b42f8e7c1aafb43dc3de02c7e9a737f",
+    "memo": "6c14a48e57469b273b65c70e97c43824ad36ab76657b095e938ae1f06988eb88",
     "projects": [
+        {
+            "name": "github.com/go-sql-driver/mysql",
+            "version": "v1.3",
+            "revision": "a0583e0143b1624142adab07e0e97fe106d99561",
+            "packages": [
+                "."
+            ]
+        },
         {
             "name": "github.com/gorilla/context",
             "version": "v1.1",

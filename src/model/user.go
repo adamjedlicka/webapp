@@ -3,23 +3,16 @@ package model
 import (
 	"errors"
 	"net/http"
+
+	"github.com/adamjedlicka/webapp/src/shared/db"
 )
 
 type User struct {
-	id       int64
-	username string
-	password string
-}
-
-var users map[string]*User
-
-func init() {
-	users = make(map[string]*User)
-	users["admin"] = &User{
-		id:       1,
-		username: "admin",
-		password: "admin",
-	}
+	id        int64
+	firstName string
+	lastName  string
+	username  string
+	password  string
 }
 
 func NewUser() *User {
@@ -30,29 +23,17 @@ func NewUser() *User {
 }
 
 func (u *User) FindByUsername(username string) error {
-	tmp, ok := users[username]
-	if !ok {
-		return errors.New("User not found: " + username)
-	}
+	err := db.DB.QueryRow("SELECT ID, FirstName, LastName, Username, Password FROM Users WHERE Username = ?", username).
+		Scan(&u.id, &u.firstName, &u.lastName, &u.username, &u.password)
 
-	u.id = tmp.id
-	u.username = tmp.username
-	u.password = tmp.password
-
-	return nil
+	return err
 }
 
 func (u *User) FindByID(id int64) error {
-	for _, tmp := range users {
-		if tmp.id == id {
-			u.id = tmp.id
-			u.username = tmp.username
-			u.password = tmp.password
-			return nil
-		}
-	}
+	err := db.DB.QueryRow("SELECT ID, FirstName, LastName, Username, Password FROM Users WHERE ID = ?", id).
+		Scan(&u.id, &u.firstName, &u.lastName, &u.username, &u.password)
 
-	return errors.New("No such user")
+	return err
 }
 
 func (u User) ID() int64        { return u.id }

@@ -1,0 +1,8 @@
+{
+	"Database": {
+		"Type": "mysql",
+		"Username": "root",
+		"Password": "",
+		"Database": "isszp"
+	}
+}
