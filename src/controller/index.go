@@ -1,4 +1,4 @@
-package handlers
+package controller
 
 import (
 	"net/http"
@@ -9,5 +9,5 @@ var (
 )
 
 func IndexGET(w http.ResponseWriter, r *http.Request) {
-	templateIndex.Execute(w, NewData(r))
+	templateIndex.Execute(w, NewBase(r))
 }

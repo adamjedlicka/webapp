@@ -1,6 +1,9 @@
-package models
+package model
 
-import "errors"
+import (
+	"errors"
+	"net/http"
+)
 
 type User struct {
 	id       int64
@@ -21,7 +24,7 @@ func init() {
 
 func NewUser() *User {
 	u := new(User)
-	u.id = 0
+	u.id = -1
 
 	return u
 }
@@ -55,3 +58,13 @@ func (u *User) FindByID(id int64) error {
 func (u User) ID() int64        { return u.id }
 func (u User) Username() string { return u.username }
 func (u User) Password() string { return u.password }
+
+func GetUser(r *http.Request) (*User, error) {
+	u := NewUser()
+	err := u.FindByID(1)
+	if err != nil {
+		return nil, errors.New("No user logged in!")
+	}
+
+	return u, nil
+}

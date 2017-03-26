@@ -1,4 +1,4 @@
-package handlers
+package controller
 
 import (
 	"net/http"
@@ -9,5 +9,5 @@ var (
 )
 
 func TasksGET(w http.ResponseWriter, r *http.Request) {
-	templateTasks.Execute(w, NewData(r))
+	templateTasks.Execute(w, NewBase(r))
 }

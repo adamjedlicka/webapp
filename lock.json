@@ -1,5 +1,5 @@
 {
-    "memo": "aa855c8da113dacee9abea4e3fbed8f2f98347abf8a5168d476d35cbaf3ea564",
+    "memo": "f846ff20e418dca6c8a3b3357a32ef5c2b42f8e7c1aafb43dc3de02c7e9a737f",
     "projects": [
         {
             "name": "github.com/gorilla/context",
@@ -13,6 +13,22 @@
             "name": "github.com/gorilla/mux",
             "version": "v1.3.0",
             "revision": "392c28fe23e1c45ddba891b0320b3b5df220beea",
+            "packages": [
+                "."
+            ]
+        },
+        {
+            "name": "github.com/gorilla/securecookie",
+            "version": "v1.1",
+            "revision": "4b217a2671608446fa0de0dae30af8d8e0b24497",
+            "packages": [
+                "."
+            ]
+        },
+        {
+            "name": "github.com/gorilla/sessions",
+            "version": "v1.1",
+            "revision": "ca9ada44574153444b00d3fd9c8559e4cc95f896",
             "packages": [
                 "."
             ]

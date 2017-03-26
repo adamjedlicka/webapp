@@ -1,28 +1,28 @@
-package handlers
+package controller
 
 import (
 	"html/template"
 	"net/http"
 
-	"github.com/adamjedlicka/webapp/src/common"
-	"github.com/adamjedlicka/webapp/src/models"
+	"github.com/adamjedlicka/webapp/src/model"
+	"github.com/adamjedlicka/webapp/src/shared/session"
 )
 
 var layouts = []string{
 	"templates/layout/base.html",
 }
 
-type Data struct {
+type Base struct {
 	IsLogin bool
-	User    *models.User
+	User    *model.User
 }
 
-func NewData(r *http.Request) *Data {
-	d := new(Data)
-	d.IsLogin = common.IsLogin(r)
-	d.User, _ = common.GetUser(r)
+func NewBase(r *http.Request) *Base {
+	b := new(Base)
+	b.IsLogin = session.IsLogin(r)
+	b.User, _ = model.GetUser(r)
 
-	return d
+	return b
 }
 
 func ParseTemplates(path ...string) *template.Template {

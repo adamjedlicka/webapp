@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/adamjedlicka/webapp/src/route"
 	"github.com/gorilla/mux"
 )
 
@@ -18,10 +19,11 @@ func init() {
 	flag.StringVar(&flagPort, "port", "8080", "Sets the port of the webserver")
 }
 
+// Run starts the server
 func Run() {
 	r := mux.NewRouter()
 
-	initRoutes(r)
+	route.InitRoutes(r)
 
 	log.Println("Listening on address: ", flagAddress, " and port: ", flagPort)
 

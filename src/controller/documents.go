@@ -1,4 +1,4 @@
-package handlers
+package controller
 
 import (
 	"net/http"
@@ -9,5 +9,5 @@ var (
 )
 
 func DocumentsGET(w http.ResponseWriter, r *http.Request) {
-	templateDocuments.Execute(w, NewData(r))
+	templateDocuments.Execute(w, NewBase(r))
 }

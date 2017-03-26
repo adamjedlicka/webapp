@@ -2,10 +2,9 @@ package main
 
 import (
 	"flag"
+	"log"
 	"os"
 	"os/signal"
-
-	"log"
 
 	"github.com/adamjedlicka/webapp/src/server"
 )
@@ -25,6 +24,7 @@ func main() {
 		os.Exit(0)
 	}
 
+	// Handle interrupt signals from terminal (Ctrl-C)
 	signals := make(chan os.Signal)
 	signal.Notify(signals, os.Interrupt)
 	go func() {
