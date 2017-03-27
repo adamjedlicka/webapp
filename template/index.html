@@ -1,3 +1,6 @@
 {{ define "title" }} Index {{ end }} {{ define "content" }}
 <h2>This is index page</h2>
+<div>
+	{{ if .IsLogin }} You are logged in as {{ .User.FirstName }} {{ .User.LastName }} {{ end }}
+</div>
 {{ end }}

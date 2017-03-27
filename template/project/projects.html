@@ -1,3 +1,17 @@
 {{ define "title" }} Projects {{ end }} {{ define "content" }}
-<h2>This is projects page</h2>
-{{ end }}
+<h2>Projects</h2>
+<table class="table">
+	<tr>
+		<th>ID</th>
+		<th>Name</th>
+		<th>Description</th>
+	</tr>
+	{{ range $k, $v := .Projects }}
+	<tr>
+		<td>{{ $v.ID }}</td>
+		<td>{{ $v.Name }}</td>
+		<td>{{ $v.Description }}</td>
+	</tr>
+	{{ end }}
+</table>
+<a href="/projects/new">New project</a> {{ end }}

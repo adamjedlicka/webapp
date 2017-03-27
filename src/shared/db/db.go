@@ -71,6 +71,11 @@ func Install(c Config) {
 			Username VARCHAR(30),
 			Password VARCHAR(30))`,
 
+		`CREATE TABLE Projects (
+			ID INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+			Name VARCHAR(30),
+			Description VARCHAR(500))`,
+
 		`INSERT INTO Users (FirstName, LastName, Username, Password)
 			VALUES ("Franta", "Sádlo", "admin", "admin")`,
 	}
