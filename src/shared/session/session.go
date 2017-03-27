@@ -1,8 +1,10 @@
 package session
 
 import (
+	"errors"
 	"net/http"
 
+	"github.com/adamjedlicka/webapp/src/model"
 	"github.com/gorilla/sessions"
 )
 
@@ -34,4 +36,25 @@ func IsLogin(r *http.Request) bool {
 	}
 
 	return val
+}
+
+func GetUser(r *http.Request) (*model.User, error) {
+	u := model.NewUser()
+
+	session, err := SessionStore.Get(r, SessionAuth)
+	if err != nil {
+		return nil, errors.New("No user logged in")
+	}
+
+	id, ok := session.Values["id"].(int64)
+	if !ok {
+		return nil, errors.New("No user logged in")
+	}
+
+	err = u.FindByID(id)
+	if err != nil {
+		return nil, errors.New("No such User in database")
+	}
+
+	return u, nil
 }

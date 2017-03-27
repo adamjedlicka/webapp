@@ -1,0 +1,21 @@
+{{ define "title" }} Users {{ end }} {{ define "content" }}
+<h2>Users</h2>
+<table class="table">
+	<tr>
+		<th>ID</th>
+		<th>Username</th>
+		<th>FirstName</th>
+		<th>LastName</th>
+		<th>IsEmployee</th>
+	</tr>
+	{{ range $k, $v := .Users }}
+	<tr>
+		<td>{{ $v.ID }}</td>
+		<td>{{ $v.Username }}</td>
+		<td>{{ $v.FirstName }}</td>
+		<td>{{ $v.LastName }}</td>
+		<td>{{ if $v.IsEmployee }} <span class="glyphicon glyphicon-ok"></span> {{ else }} <span class="glyphicon glyphicon-remove"></span> {{ end }}</td>
+	</tr>
+	{{ end }}
+</table>
+<a href="/users/new">Add user</a> {{ end }}

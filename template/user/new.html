@@ -1,0 +1,50 @@
+{{ define "title" }} New user {{ end }} {{ define "content" }}
+<div class="panel panel-default">
+	<div class="panel-body">
+
+		<form class="form-horizontal" method="POST">
+			<div class="form-group">
+				<label for="Username" class="col-sm-2 control-label">Username</label>
+				<div class="col-sm-4">
+					<input name="Username" type="text" class="form-control">
+				</div>
+
+				<div class="checkbox col-sm-2 text-right" >
+					<label>
+						<input name="IsEmployee" type="checkbox"> Is employee
+					</label>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="FirstName" class="col-sm-2 control-label">First name</label>
+				<div class="col-sm-4">
+					<input name="FirstName" type="text" class="form-control">
+				</div>
+				<label for="LastName" class="col-sm-2 control-label">Last name</label>
+				<div class="col-sm-4">
+					<input name="LastName" type="text" class="form-control">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="EMail" class="col-sm-2 control-label">e-mail</label>
+				<div class="col-sm-4">
+					<input name="EMail" type="email" class="form-control">
+				</div>
+				<label for="TelNumber" class="col-sm-2 control-label">Telephone number</label>
+				<div class="col-sm-4">
+					<input name="TelNumber" type="tel" class="form-control">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button type="submit" class="btn btn-success">Submit</button>
+				</div>
+			</div>
+		</form>
+
+	</div>
+</div>
+{{ end }}

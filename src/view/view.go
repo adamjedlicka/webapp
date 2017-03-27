@@ -4,7 +4,8 @@ import (
 	"html/template"
 	"net/http"
 
-	"github.com/adamjedlicka/webapp/src/model"
+	"log"
+
 	"github.com/adamjedlicka/webapp/src/shared/session"
 )
 
@@ -24,9 +25,9 @@ func New(r *http.Request) *View {
 
 	v.Vars["IsLogin"] = session.IsLogin(r)
 	if v.Vars["IsLogin"].(bool) {
-		u, err := model.GetUser(r)
+		u, err := session.GetUser(r)
 		if err != nil {
-			v.Vars["IsLogin"] = false
+			log.Fatal(err)
 		}
 
 		v.Vars["User"] = u

@@ -3,13 +3,17 @@ package model
 import (
 	"log"
 
+	"database/sql"
+
 	"github.com/adamjedlicka/webapp/src/shared/db"
 )
 
 type Project struct {
 	id          int64
 	name        string
-	description string
+	description sql.NullString
+	code        string
+	userID      int64
 }
 
 func NewProject() *Project {
@@ -39,10 +43,10 @@ func (p *Project) Save() error {
 
 func (p Project) ID() int64           { return p.id }
 func (p Project) Name() string        { return p.name }
-func (p Project) Description() string { return p.description }
+func (p Project) Description() string { return p.description.String }
 
 func (p *Project) SetName(name string)               { p.name = name }
-func (p *Project) SetDescription(description string) { p.description = description }
+func (p *Project) SetDescription(description string) { p.description.String = description }
 
 func GetProjects() []*Project {
 	projects := make([]*Project, 0)
