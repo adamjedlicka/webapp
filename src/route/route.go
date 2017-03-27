@@ -15,8 +15,8 @@ func New() *mux.Router {
 	r.HandleFunc("/", controller.IndexGET).Methods("GET")
 
 	r.Handle("/projects", middleware.MustLogin(http.HandlerFunc(controller.ProjectsGET))).Methods("GET")
-	r.Handle("/tasks", middleware.MustLogin(http.HandlerFunc(controller.TasksGET))).Methods("GET")
-	r.Handle("/documents", middleware.MustLogin(http.HandlerFunc(controller.DocumentsGET))).Methods("GET")
+	// r.Handle("/tasks", middleware.MustLogin(http.HandlerFunc(controller.TasksGET))).Methods("GET")
+	// r.Handle("/documents", middleware.MustLogin(http.HandlerFunc(controller.DocumentsGET))).Methods("GET")
 
 	r.HandleFunc("/login", controller.LoginPOST).Methods("POST")
 	r.HandleFunc("/logout", controller.LogoutGET).Methods("GET")

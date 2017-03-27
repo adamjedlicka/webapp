@@ -19,7 +19,7 @@ func LoginPOST(w http.ResponseWriter, r *http.Request) {
 
 	u := model.NewUser()
 	err := u.FindByUsername(username)
-	if err != nil || password != u.Password() {
+	if err != nil || !u.CheckPassword(password) {
 		http.Error(w, "Bad username or password!", http.StatusUnauthorized)
 		return
 	}
@@ -29,7 +29,8 @@ func LoginPOST(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 	}
 
-	session.Values["username"] = username
+	session.Values["id"] = u.ID()
+	session.Values["username"] = u.Username()
 	session.Values["login"] = true
 
 	session.Save(r, w)

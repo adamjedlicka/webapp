@@ -36,9 +36,12 @@ func (u *User) FindByID(id int64) error {
 	return err
 }
 
-func (u User) ID() int64        { return u.id }
-func (u User) Username() string { return u.username }
-func (u User) Password() string { return u.password }
+func (u User) ID() int64         { return u.id }
+func (u User) FirstName() string { return u.firstName }
+func (u User) LastName() string  { return u.lastName }
+func (u User) Username() string  { return u.username }
+
+func (u User) CheckPassword(password string) bool { return password == u.password }
 
 func GetUser(r *http.Request) (*User, error) {
 	u := NewUser()

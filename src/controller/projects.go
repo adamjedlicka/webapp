@@ -2,12 +2,13 @@ package controller
 
 import (
 	"net/http"
-)
 
-var (
-	templateProjects = ParseTemplates("templates/projects.html")
+	"github.com/adamjedlicka/webapp/src/view"
 )
 
 func ProjectsGET(w http.ResponseWriter, r *http.Request) {
-	templateProjects.Execute(w, NewBase(r))
+	v := view.New(r)
+	v.Name = "project/projects"
+
+	v.Render(w)
 }

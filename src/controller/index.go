@@ -2,12 +2,13 @@ package controller
 
 import (
 	"net/http"
-)
 
-var (
-	templateIndex = ParseTemplates("templates/index.html")
+	"github.com/adamjedlicka/webapp/src/view"
 )
 
 func IndexGET(w http.ResponseWriter, r *http.Request) {
-	templateIndex.Execute(w, NewBase(r))
+	v := view.New(r)
+	v.Name = "index"
+
+	v.Render(w)
 }
