@@ -48,13 +48,15 @@ func main() {
 	}()
 
 	// Double check install process
-	if flagInstall {
-		fmt.Println("This will delete all data in database and installs the application!")
-		fmt.Print("Are you sure you want to proceed? [y/N] ")
-		var res rune
-		fmt.Scanf("%c", &res)
-		if res != 'y' && res != 'Y' {
-			os.Exit(0)
+	if flagInstall || os.Getenv("ISSZP_INSTALL") == "true" {
+		if os.Getenv("ISSZP_INSTALL") != "true" {
+			fmt.Println("This will delete all data in database and installs the application!")
+			fmt.Print("Are you sure you want to proceed? [y/N] ")
+			var res rune
+			fmt.Scanf("%c", &res)
+			if res != 'y' && res != 'Y' {
+				os.Exit(0)
+			}
 		}
 
 		db.Install(config.Database)
@@ -63,7 +65,7 @@ func main() {
 		os.Exit(0)
 	}
 
-	if !flagRun || flagHelp {
+	if (!flagRun && os.Getenv("ISSZP_RUN") != "true") || flagHelp {
 		flag.PrintDefaults()
 		os.Exit(0)
 	}
