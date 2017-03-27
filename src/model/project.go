@@ -21,7 +21,7 @@ func NewProject() *Project {
 
 func (p *Project) Save() error {
 	if p.id == -1 {
-		res, err := db.DB.Exec("INSERT INTO Projects (Name, Description) VALUES (?, ?)", p.name, p.description)
+		res, err := db.Exec("INSERT INTO Projects (Name, Description) VALUES (?, ?)", p.name, p.description)
 		if err != nil {
 			return err
 		}
@@ -47,7 +47,7 @@ func (p *Project) SetDescription(description string) { p.description = descripti
 func GetProjects() []*Project {
 	projects := make([]*Project, 0)
 
-	res, err := db.DB.Query("SELECT ID, Name, Description FROM Projects ORDER BY ID")
+	res, err := db.Query("SELECT ID, Name, Description FROM Projects ORDER BY ID")
 	if err != nil {
 		log.Fatal(err)
 	}

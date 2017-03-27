@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/adamjedlicka/webapp/src/shared/session"
@@ -14,6 +15,14 @@ func MustLogin(next http.Handler) http.Handler {
 			http.Error(w, "Bad authentification!", http.StatusBadRequest)
 			return
 		}
+
+		next.ServeHTTP(w, r)
+	})
+}
+
+func LogRequest(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		log.Println(r.Method, r.RequestURI)
 
 		next.ServeHTTP(w, r)
 	})

@@ -4,5 +4,12 @@
 		"Username": "root",
 		"Password": "",
 		"Database": "isszp"
+	},
+	"Server": {
+		"Address": "localhost",
+		"Port": "8080"
+	},
+	"Router": {
+		"LogRequests": true
 	}
 }

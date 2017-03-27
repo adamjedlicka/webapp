@@ -15,8 +15,6 @@ func LoginPOST(w http.ResponseWriter, r *http.Request) {
 	username := r.FormValue("username")
 	password := r.FormValue("password")
 
-	log.Println("Attemt to login :: username: ", username, ", password: ", password)
-
 	u := model.NewUser()
 	err := u.FindByUsername(username)
 	if err != nil || !u.CheckPassword(password) {

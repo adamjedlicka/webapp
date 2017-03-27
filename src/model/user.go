@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/adamjedlicka/webapp/src/shared/db"
+	"github.com/adamjedlicka/webapp/src/shared/session"
 )
 
 type User struct {
@@ -23,14 +24,14 @@ func NewUser() *User {
 }
 
 func (u *User) FindByUsername(username string) error {
-	err := db.DB.QueryRow("SELECT ID, FirstName, LastName, Username, Password FROM Users WHERE Username = ?", username).
+	err := db.QueryRow("SELECT ID, FirstName, LastName, Username, Password FROM Users WHERE Username = ?", username).
 		Scan(&u.id, &u.firstName, &u.lastName, &u.username, &u.password)
 
 	return err
 }
 
 func (u *User) FindByID(id int64) error {
-	err := db.DB.QueryRow("SELECT ID, FirstName, LastName, Username, Password FROM Users WHERE ID = ?", id).
+	err := db.QueryRow("SELECT ID, FirstName, LastName, Username, Password FROM Users WHERE ID = ?", id).
 		Scan(&u.id, &u.firstName, &u.lastName, &u.username, &u.password)
 
 	return err
@@ -45,9 +46,20 @@ func (u User) CheckPassword(password string) bool { return password == u.passwor
 
 func GetUser(r *http.Request) (*User, error) {
 	u := NewUser()
-	err := u.FindByID(1)
+
+	s, err := session.SessionStore.Get(r, session.SessionAuth)
 	if err != nil {
 		return nil, errors.New("No user logged in!")
+	}
+
+	id, ok := s.Values["id"].(int64)
+	if !ok {
+		return nil, errors.New("Wrong ID in session")
+	}
+
+	err = u.FindByID(id)
+	if err != nil {
+		return nil, errors.New("No such user in databse!")
 	}
 
 	return u, nil

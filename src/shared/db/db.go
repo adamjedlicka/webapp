@@ -8,82 +8,47 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-var DB *sql.DB
-
-type Config struct {
+type Configuration struct {
 	Type     string
 	Database string
 	Username string
 	Password string
 }
 
-func Connect(c Config) error {
+var conf *Configuration
+
+var db *sql.DB
+
+func Connect() {
 	log.Println("Initializing database...")
 
 	var err error
-	DB, err = sql.Open(c.Type, c.Username+":@/"+c.Database)
+	db, err = sql.Open(conf.Type, conf.Username+":@/"+conf.Database)
 	if err != nil {
-		return err
+		log.Fatal(err)
 	}
 
-	err = DB.Ping()
+	err = db.Ping()
 	if err != nil {
-		return err
+		log.Fatal(err)
 	}
 
 	// Connect and check the server version
 	var version string
-	DB.QueryRow("SELECT VERSION()").Scan(&version)
+	db.QueryRow("SELECT VERSION()").Scan(&version)
 	log.Println("Connected to:", version)
-
-	return nil
 }
 
-func Install(c Config) {
-	log.Println("Installing database...")
-
-	var err error
-	DB, err = sql.Open(c.Type, c.Username+":@/")
-	if err != nil {
-		panic(err)
-	}
-
-	_, err = DB.Exec("DROP DATABASE IF EXISTS `" + c.Database + "`")
-	if err != nil {
-		panic(err)
-	}
-
-	_, err = DB.Exec("CREATE DATABASE `" + c.Database + "`")
-	if err != nil {
-		panic(err)
-	}
-
-	_, err = DB.Exec("USE `" + c.Database + "`")
-	if err != nil {
-		panic(err)
-	}
-
-	cmds := []string{
-		`CREATE TABLE Users (
-			ID INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-			FirstName VARCHAR(30),
-			LastName VARCHAR(30),
-			Username VARCHAR(30),
-			Password VARCHAR(30))`,
-
-		`CREATE TABLE Projects (
-			ID INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-			Name VARCHAR(30),
-			Description VARCHAR(500))`,
-
-		`INSERT INTO Users (FirstName, LastName, Username, Password)
-			VALUES ("Franta", "Sádlo", "admin", "admin")`,
-	}
-
-	for _, v := range cmds {
-		_, err = DB.Exec(v)
-		if err != nil {
-			panic(err)
-		}
-	}
+func Exec(q string, args ...interface{}) (sql.Result, error) {
+	return db.Exec(q, args...)
 }
+
+func QueryRow(q string, args ...interface{}) *sql.Row {
+	return db.QueryRow(q, args...)
+}
+
+func Query(q string, args ...interface{}) (*sql.Rows, error) {
+	return db.Query(q, args...)
+}
+
+func Configure(c *Configuration) { conf = c }

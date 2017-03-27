@@ -2,7 +2,6 @@ package view
 
 import (
 	"html/template"
-	"log"
 	"net/http"
 
 	"github.com/adamjedlicka/webapp/src/model"
@@ -27,7 +26,7 @@ func New(r *http.Request) *View {
 	if v.Vars["IsLogin"].(bool) {
 		u, err := model.GetUser(r)
 		if err != nil {
-			log.Fatal(err)
+			v.Vars["IsLogin"] = false
 		}
 
 		v.Vars["User"] = u
