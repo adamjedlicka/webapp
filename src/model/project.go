@@ -1,7 +1,10 @@
 package model
 
-import "github.com/adamjedlicka/webapp/src/shared/db"
-import "log"
+import (
+	"log"
+
+	"github.com/adamjedlicka/webapp/src/shared/db"
+)
 
 type Project struct {
 	id          int64

@@ -1,9 +1,8 @@
 package controller
 
 import (
-	"net/http"
-
 	"log"
+	"net/http"
 
 	"github.com/adamjedlicka/webapp/src/model"
 	"github.com/adamjedlicka/webapp/src/view"
