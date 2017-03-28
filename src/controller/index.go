@@ -7,8 +7,7 @@ import (
 )
 
 func IndexGET(w http.ResponseWriter, r *http.Request) {
-	v := view.New(r)
-	v.Name = "index"
+	v := view.New(r, "index")
 
 	v.Render(w)
 }

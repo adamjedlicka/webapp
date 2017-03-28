@@ -18,13 +18,20 @@ type Project struct {
 
 func NewProject() *Project {
 	p := new(Project)
-	p.id = -1
+	p.id = 0
 
 	return p
 }
 
+func (p *Project) FindByID(id int64) error {
+	db.QueryRow("SELECT ID, Name, Description, Code FROM Projects WHERE ID = ?", id).
+		Scan(&p.id, &p.name, &p.description, &p.code)
+
+	return nil
+}
+
 func (p *Project) Save() error {
-	if p.id == -1 {
+	if p.id == 0 {
 		res, err := db.Exec("INSERT INTO Projects (Name, Description) VALUES (?, ?)", p.name, p.description)
 		if err != nil {
 			return err

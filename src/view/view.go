@@ -4,8 +4,6 @@ import (
 	"html/template"
 	"net/http"
 
-	"log"
-
 	"github.com/adamjedlicka/webapp/src/shared/session"
 )
 
@@ -18,16 +16,16 @@ type View struct {
 	Vars map[string]interface{}
 }
 
-func New(r *http.Request) *View {
+func New(r *http.Request, name string) *View {
 	v := new(View)
-	v.Name = ""
+	v.Name = name
 	v.Vars = make(map[string]interface{})
 
 	v.Vars["IsLogin"] = session.IsLogin(r)
 	if v.Vars["IsLogin"].(bool) {
 		u, err := session.GetUser(r)
 		if err != nil {
-			log.Fatal(err)
+			v.Vars["IsLogin"] = false
 		}
 
 		v.Vars["User"] = u

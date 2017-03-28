@@ -8,16 +8,14 @@ import (
 )
 
 func UsersGET(w http.ResponseWriter, r *http.Request) {
-	v := view.New(r)
-	v.Name = "user/users"
+	v := view.New(r, "user/new")
 	v.Vars["Users"] = model.GetUsers()
 
 	v.Render(w)
 }
 
 func UsersNewGET(w http.ResponseWriter, r *http.Request) {
-	v := view.New(r)
-	v.Name = "user/new"
+	v := view.New(r, "user/new")
 	v.Vars["Users"] = model.GetUsers()
 
 	v.Render(w)

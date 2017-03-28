@@ -9,16 +9,14 @@ import (
 )
 
 func ProjectsGET(w http.ResponseWriter, r *http.Request) {
-	v := view.New(r)
-	v.Name = "project/projects"
+	v := view.New(r, "project/new")
 	v.Vars["Projects"] = model.GetProjects()
 
 	v.Render(w)
 }
 
 func ProjectsNewGET(w http.ResponseWriter, r *http.Request) {
-	v := view.New(r)
-	v.Name = "project/new"
+	v := view.New(r, "project/new")
 
 	v.Render(w)
 }

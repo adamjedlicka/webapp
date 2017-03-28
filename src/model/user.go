@@ -20,7 +20,7 @@ type User struct {
 
 func NewUser() *User {
 	u := new(User)
-	u.id = -1
+	u.id = 0
 
 	return u
 }
@@ -61,7 +61,7 @@ func (u *User) SetLastName(lastName string) {
 func (u User) CheckPassword(password string) bool { return password == u.password }
 
 func (u *User) Save() error {
-	if u.id == -1 {
+	if u.id == 0 {
 		res, err := db.Exec("INSERT INTO Users (FirstName, LastName, Username, IsEmployee, Password) VALUES (?, ?, ?, ?, ?)",
 			u.firstName.String, u.lastName.String, u.username, u.isEmployee, u.password)
 		if err != nil {
