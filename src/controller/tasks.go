@@ -90,7 +90,7 @@ func TasksPOST(w http.ResponseWriter, r *http.Request) {
 
 	userID, err := strconv.ParseInt(r.FormValue("UserID"), 10, 64)
 	if err == nil {
-		t.SetProjectID(userID)
+		t.SetUserID(userID)
 	}
 
 	err = t.Save()
