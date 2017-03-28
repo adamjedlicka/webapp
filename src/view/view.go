@@ -12,14 +12,19 @@ var (
 )
 
 type View struct {
-	Name string
-	Vars map[string]interface{}
+	Name      string
+	Vars      map[string]interface{}
+	L         map[string]string
+	templates []string
 }
 
 func New(r *http.Request, name string) *View {
 	v := new(View)
 	v.Name = name
 	v.Vars = make(map[string]interface{})
+	v.L = make(map[string]string)
+	v.templates = make([]string, 0)
+	v.templates = append(v.templates, templateBase, v.Name)
 
 	v.Vars["IsLogin"] = session.IsLogin(r)
 	if v.Vars["IsLogin"].(bool) {
@@ -34,12 +39,14 @@ func New(r *http.Request, name string) *View {
 	return v
 }
 
-func (v *View) Render(w http.ResponseWriter) {
-	var templateList []string
-	templateList = append(templateList, templateBase)
-	templateList = append(templateList, v.Name)
+func (v *View) AppendTemplates(templates ...string) {
+	v.templates = append(v.templates, templates...)
+}
 
-	for i, name := range templateList {
+func (v *View) Render(w http.ResponseWriter) {
+	templateList := make([]string, len(v.templates))
+
+	for i, name := range v.templates {
 		path := "template/" + name + ".html"
 
 		templateList[i] = path
@@ -51,5 +58,6 @@ func (v *View) Render(w http.ResponseWriter) {
 		return
 	}
 
+	v.Vars["L"] = v.L
 	template.Execute(w, v.Vars)
 }

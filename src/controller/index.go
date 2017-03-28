@@ -8,6 +8,7 @@ import (
 
 func IndexGET(w http.ResponseWriter, r *http.Request) {
 	v := view.New(r, "index")
+	v.L["Title"] = "Home"
 
 	v.Render(w)
 }

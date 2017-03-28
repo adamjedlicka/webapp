@@ -1,5 +1,5 @@
-{{define "title"}} Task {{end}} {{define "content"}}
-
+{{block "Title" .}}Tasks - {{.Action}}{{end}}
+{{define "content"}}
 <div class="panel panel-default">
 	<div class="panel-heading">
 		<h3 class="panel-title">{{.Task.Code}} - {{.Task.Name}}</h3>
@@ -73,7 +73,7 @@
 					</div>
 					{{else if eq .Action "new"}}
 					<div class="btn-group pull-right" role="group">
-						<a href="/tasks/list" class="btn btn-default">Cancel</a>
+						<a href="/tasks" class="btn btn-default">Cancel</a>
 						<button type="submit" class="btn btn-default btn-success" formaction="/tasks" formmethod="POST">Create</button>
 					</div>
 					{{end}}

@@ -1,0 +1,34 @@
+{{define "taskList"}}
+<table class="table table-striped table-hover">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Name</th>
+			<th>Code</th>
+			<th>Action</th>
+		</tr>
+	</thead>
+	<tbody>
+		{{range $k, $v := .Tasks}}
+		<tr>
+			<td>{{$v.ID}}</td>
+			<td>{{$v.Name}}</td>
+			<td>{{$v.Code}}</td>
+			<td>
+				<div class="btn-group">
+					<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+						Action <span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu">
+						<li><a href="/tasks/view/{{$v.ID}}">View</a></li>
+						<li><a href="/tasks/edit/{{$v.ID}}">Edit</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a href="/tasks/delete/{{$v.ID}}">Delete</a></li>
+					</ul>
+				</div>
+			</td>
+		</tr>
+		{{end}}
+	</tbody>
+</table>
+{{end}}

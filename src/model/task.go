@@ -2,6 +2,7 @@ package model
 
 import (
 	"database/sql"
+	"log"
 
 	"github.com/adamjedlicka/webapp/src/shared/db"
 )
@@ -80,6 +81,15 @@ func (t *Task) Save() error {
 	return nil
 }
 
+func (t *Task) Delete() error {
+	_, err := db.Exec("DELETE FROM Tasks WHERE ID = ?", t.id)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (t Task) ID() int64           { return t.id }
 func (t Task) Name() string        { return t.name }
 func (t Task) Description() string { return t.description.String }
@@ -128,4 +138,31 @@ func (t *Task) SetUserID(id int64) error {
 	t.user = u
 
 	return nil
+}
+
+// ---------- helper functions ----------
+
+func GetTasks() []*Task {
+	tasks := make([]*Task, 0)
+
+	res, err := db.Query("SELECT ID FROM Tasks ORDER BY ID")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var id int64
+
+	for res.Next() {
+		err := res.Scan(&id)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		t := NewTask()
+		t.FindByID(id)
+
+		tasks = append(tasks, t)
+	}
+
+	return tasks
 }

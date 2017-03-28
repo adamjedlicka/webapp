@@ -24,10 +24,10 @@ func New() http.Handler {
 	r.Handle("/users/new", middleware.MustLogin(http.HandlerFunc(controller.UsersNewGET))).Methods("GET")
 	r.Handle("/users/new", middleware.MustLogin(http.HandlerFunc(controller.UsersNewPOST))).Methods("POST")
 
-	r.Handle("/tasks", middleware.MustLogin(http.HandlerFunc(controller.TasksPOST))).Methods("POST")
-	r.Handle("/tasks/list", middleware.MustLogin(http.HandlerFunc(controller.TasksListGET))).Methods("GET")
+	r.Handle("/tasks", middleware.MustLogin(http.HandlerFunc(controller.TasksGET))).Methods("GET")
 	r.Handle("/tasks/new", middleware.MustLogin(http.HandlerFunc(controller.TasksNewGET))).Methods("GET")
-	r.Handle("/tasks/{action}/{id:[0-9]+}", middleware.MustLogin(http.HandlerFunc(controller.TasksGET))).Methods("GET")
+	r.Handle("/tasks/{action}/{id:[0-9]+}", middleware.MustLogin(http.HandlerFunc(controller.TasksActionGET))).Methods("GET")
+	r.Handle("/tasks", middleware.MustLogin(http.HandlerFunc(controller.TasksPOST))).Methods("POST")
 
 	r.Handle("/projects", middleware.MustLogin(http.HandlerFunc(controller.ProjectsGET))).Methods("GET")
 	r.Handle("/projects/new", middleware.MustLogin(http.HandlerFunc(controller.ProjectsNewGET))).Methods("GET")

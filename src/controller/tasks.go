@@ -1,19 +1,16 @@
 package controller
 
 import (
+	"log"
 	"net/http"
 	"strconv"
-
-	"fmt"
-
-	"log"
 
 	"github.com/adamjedlicka/webapp/src/model"
 	"github.com/adamjedlicka/webapp/src/view"
 	"github.com/gorilla/mux"
 )
 
-func TasksGET(w http.ResponseWriter, r *http.Request) {
+func TasksActionGET(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -33,7 +30,19 @@ func TasksGET(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if mux.Vars(r)["action"] == "delete" {
+		err := t.Delete()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+
+		http.Redirect(w, r, "/tasks", http.StatusSeeOther)
+		return
+	}
+
 	v := view.New(r, "task/view")
+	v.L["Title"] = "Tasks"
+
 	v.Vars["Task"] = t
 	v.Vars["Action"] = mux.Vars(r)["action"]
 
@@ -102,6 +111,13 @@ func TasksPOST(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/tasks/view/"+strconv.FormatInt(t.ID(), 10), http.StatusSeeOther)
 }
 
-func TasksListGET(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "Listing tasks")
+func TasksGET(w http.ResponseWriter, r *http.Request) {
+	v := view.New(r, "task/tasks")
+	v.AppendTemplates("task/list")
+
+	v.L["Title"] = "Tasks"
+
+	v.Vars["Tasks"] = model.GetTasks()
+
+	v.Render(w)
 }

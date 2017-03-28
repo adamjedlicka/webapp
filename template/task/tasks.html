@@ -1,0 +1,7 @@
+{{block "Title" .}}Tasks{{end}}
+{{define "content"}}
+{{template "taskList" .}}
+<div class="row">
+	<a class="btn btn-default btn-primary pull-right" href="/tasks/new" role="button">New task</a>
+</div>
+{{end}}
