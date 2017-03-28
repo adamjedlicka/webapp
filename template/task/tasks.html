@@ -1,7 +1,18 @@
 {{block "Title" .}}Tasks{{end}}
 {{define "content"}}
-{{template "taskList" .}}
-<div class="row">
-	<a class="btn btn-default btn-primary pull-right" href="/tasks/new" role="button">New task</a>
+<div class="container-fuild">
+	<div class="row">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Your tasks</h3>
+			</div>
+			<div class="panel-body" style="padding: 0;">
+				{{template "TaskList" .}}
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<a class="btn btn-default btn-primary pull-right" href="/tasks/new" role="button">New task</a>
+	</div>
 </div>
 {{end}}

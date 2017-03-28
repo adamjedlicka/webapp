@@ -1,6 +1,18 @@
-{{ define "title" }} Index {{ end }} {{ define "content" }}
-<h2>This is index page</h2>
-<div>
-	{{ if .IsLogin }} You are logged in as {{ .User.FirstName }} {{ .User.LastName }} {{ end }}
-</div>
-{{ end }}
+{{define "title"}}Index{{end}}
+{{define "TaskList"}} {{end}}
+{{define "content"}}
+	{{if .IsLogin}}
+	<div class="container-fuild">
+		<div class="row">
+			<div class="panel panel-default col-md-6" style="padding: 0;">
+				<div class="panel-heading">
+					<h3 class="panel-title">Your tasks</h3>
+				</div>
+				<div class="panel-body" style="padding: 0;">
+					{{template "TaskList" .}}
+				</div>
+			</div>
+		</div>
+	</div>
+	{{end}}
+{{end}}

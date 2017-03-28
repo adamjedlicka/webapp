@@ -159,6 +159,11 @@ func (t *Task) SetProjectID(id int64) error {
 }
 
 func (t *Task) SetUserID(id int64) error {
+	if id == -1 {
+		t.user = nil
+		return nil
+	}
+
 	u := NewUser()
 	err := u.FindByID(id)
 	if err != nil {

@@ -58,3 +58,17 @@ func GetUser(r *http.Request) (*model.User, error) {
 
 	return u, nil
 }
+
+func GetUserID(r *http.Request) (int64, error) {
+	session, err := SessionStore.Get(r, SessionAuth)
+	if err != nil {
+		return -1, errors.New("No user logged in")
+	}
+
+	id, ok := session.Values["id"].(int64)
+	if !ok {
+		return -1, errors.New("No user logged in")
+	}
+
+	return id, nil
+}
