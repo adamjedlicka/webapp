@@ -17,38 +17,38 @@ type Configuration struct {
 
 var conf *Configuration
 
-var db *sql.DB
+var DB *sql.DB
 
 func Connect() {
 	log.Println("Initializing database...")
 
 	var err error
-	db, err = sql.Open(conf.Type, conf.Username+":@/"+conf.Database)
+	DB, err = sql.Open(conf.Type, conf.Username+":@/"+conf.Database)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	err = db.Ping()
+	err = DB.Ping()
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	// Connect and check the server version
 	var version string
-	db.QueryRow("SELECT VERSION()").Scan(&version)
+	DB.QueryRow("SELECT VERSION()").Scan(&version)
 	log.Println("Connected to:", version)
 }
 
 func Exec(q string, args ...interface{}) (sql.Result, error) {
-	return db.Exec(q, args...)
+	return DB.Exec(q, args...)
 }
 
 func QueryRow(q string, args ...interface{}) *sql.Row {
-	return db.QueryRow(q, args...)
+	return DB.QueryRow(q, args...)
 }
 
 func Query(q string, args ...interface{}) (*sql.Rows, error) {
-	return db.Query(q, args...)
+	return DB.Query(q, args...)
 }
 
 func Configure(c *Configuration) { conf = c }

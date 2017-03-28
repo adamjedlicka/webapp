@@ -1,6 +1,14 @@
 {
-    "memo": "6c14a48e57469b273b65c70e97c43824ad36ab76657b095e938ae1f06988eb88",
+    "memo": "0d014e53f3252683bdc1a53f6b644ec9e957db4fcbd8d98d5597371991f8c71d",
     "projects": [
+        {
+            "name": "github.com/Masterminds/squirrel",
+            "branch": "v1",
+            "revision": "20f192218cf52a73397fa2df45bdda720f3e47c8",
+            "packages": [
+                "."
+            ]
+        },
         {
             "name": "github.com/go-sql-driver/mysql",
             "version": "v1.3",
@@ -37,6 +45,22 @@
             "name": "github.com/gorilla/sessions",
             "version": "v1.1",
             "revision": "ca9ada44574153444b00d3fd9c8559e4cc95f896",
+            "packages": [
+                "."
+            ]
+        },
+        {
+            "name": "github.com/lann/builder",
+            "branch": "master",
+            "revision": "f22ce00fd9394014049dad11c244859432bd6820",
+            "packages": [
+                "."
+            ]
+        },
+        {
+            "name": "github.com/lann/ps",
+            "branch": "master",
+            "revision": "62de8c46ede02a7675c4c79c84883eb164cb71e3",
             "packages": [
                 "."
             ]

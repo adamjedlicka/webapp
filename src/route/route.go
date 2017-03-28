@@ -29,10 +29,6 @@ func New() http.Handler {
 	r.Handle("/tasks/{action}/{id:[0-9]+}", middleware.MustLogin(http.HandlerFunc(controller.TasksActionGET))).Methods("GET")
 	r.Handle("/tasks", middleware.MustLogin(http.HandlerFunc(controller.TasksPOST))).Methods("POST")
 
-	r.Handle("/projects", middleware.MustLogin(http.HandlerFunc(controller.ProjectsGET))).Methods("GET")
-	r.Handle("/projects/new", middleware.MustLogin(http.HandlerFunc(controller.ProjectsNewGET))).Methods("GET")
-	r.Handle("/projects/new", middleware.MustLogin(http.HandlerFunc(controller.ProjectsNewPOST))).Methods("POST")
-
 	r.HandleFunc("/login", controller.LoginPOST).Methods("POST")
 	r.HandleFunc("/logout", controller.LogoutGET).Methods("GET")
 

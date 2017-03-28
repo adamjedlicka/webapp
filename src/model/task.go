@@ -2,7 +2,8 @@ package model
 
 import (
 	"database/sql"
-	"log"
+
+	sq "github.com/Masterminds/squirrel"
 
 	"github.com/adamjedlicka/webapp/src/shared/db"
 )
@@ -27,23 +28,17 @@ func NewTask() *Task {
 }
 
 func (t *Task) FindByID(id int64) error {
-	var projectID sql.NullInt64
-	var userID sql.NullInt64
+	q := t.Select().Where("ID = ?", id)
+	return t.QueryRow(q)
+}
 
-	db.QueryRow(`SELECT ID, Name, Description, Code, StartDate, PlanEndDate, EndDate, Project_ID, User_ID FROM Tasks WHERE ID = ?`, id).
-		Scan(&t.id, &t.name, &t.description, &t.code, &t.startDate, &t.planEndDate, &t.endDate, &projectID, &userID)
+func (t *Task) Select() sq.SelectBuilder {
+	return sq.Select("*").From("Tasks")
+}
 
-	if projectID.Valid {
-		t.project = NewProject()
-		t.project.FindByID(projectID.Int64)
-	}
-
-	if userID.Valid {
-		t.user = NewUser()
-		t.user.FindByID(userID.Int64)
-	}
-
-	return nil
+func (t *Task) QueryRow(q sq.SelectBuilder) error {
+	row := q.RunWith(db.DB).QueryRow()
+	return t.scan(row)
 }
 
 func (t *Task) Save() error {
@@ -58,8 +53,11 @@ func (t *Task) Save() error {
 	}
 
 	if t.id == 0 {
-		res, err := db.Exec("INSERT INTO Tasks (Name, Description, Code, StartDate, PlanEndDate, EndDate, Project_ID, User_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-			t.name, t.description, t.code, t.startDate.String(), t.planEndDate.Val(), t.endDate.Val(), projectID, userID)
+		q := sq.Insert("Tasks").
+			Columns("Name", "Description", "Code", "StartDate", "PlanEndDate", "EndDate", "Project_ID", "User_ID").
+			Values(t.name, t.description, t.code, t.startDate.String(), t.planEndDate.Val(), t.endDate.Val(), projectID, userID)
+
+		res, err := q.RunWith(db.DB).Exec()
 		if err != nil {
 			return err
 		}
@@ -71,8 +69,18 @@ func (t *Task) Save() error {
 
 		t.id = id
 	} else {
-		_, err := db.Exec("UPDATE Tasks SET Name=?, Description=?, Code=?, PlanEndDate=?, EndDate=?, Project_ID=?, User_ID=? WHERE ID = ?",
-			t.name, t.description, t.code, t.planEndDate.Val(), t.endDate.Val(), projectID, userID, t.id)
+		q := sq.Update("Tasks").
+			Set("Code", t.code).
+			Set("Name", t.name).
+			Set("Description", t.description).
+			Set("StartDate", t.startDate.String()).
+			Set("PlanEndDate", t.planEndDate.Val()).
+			Set("EndDate", t.endDate.Val()).
+			Set("Project_ID", projectID).
+			Set("User_ID", userID).
+			Where("ID = ?", t.id)
+
+		_, err := q.RunWith(db.DB).Exec()
 		if err != nil {
 			return err
 		}
@@ -82,13 +90,35 @@ func (t *Task) Save() error {
 }
 
 func (t *Task) Delete() error {
-	_, err := db.Exec("DELETE FROM Tasks WHERE ID = ?", t.id)
+	q := sq.Delete("Tasks").Where("ID = ?", t.id)
+	_, err := q.RunWith(db.DB).Exec()
+	return err
+}
+
+func (t *Task) scan(row sq.RowScanner) error {
+	var projectID, userID sql.NullInt64
+
+	err := row.Scan(&t.id, &t.name, &t.description, &t.code, &t.startDate, &t.planEndDate, &t.endDate, &projectID, &userID)
 	if err != nil {
 		return err
 	}
 
+	if projectID.Valid {
+		t.project = NewProject()
+		t.project.FindByID(projectID.Int64)
+	}
+
+	if userID.Valid {
+		t.user = NewUser()
+		t.user.FindByID(userID.Int64)
+	}
+
 	return nil
 }
+
+// -----------------------------------------------------------------------------
+// --- GET & SET
+// -----------------------------------------------------------------------------
 
 func (t Task) ID() int64           { return t.id }
 func (t Task) Name() string        { return t.name }
@@ -140,29 +170,30 @@ func (t *Task) SetUserID(id int64) error {
 	return nil
 }
 
-// ---------- helper functions ----------
+// -----------------------------------------------------------------------------
+// --- helper functions
+// -----------------------------------------------------------------------------
 
-func GetTasks() []*Task {
+func SelectTasks() sq.SelectBuilder {
+	return sq.Select("*").From("Tasks")
+}
+
+func QueryTasks(q sq.SelectBuilder) ([]*Task, error) {
 	tasks := make([]*Task, 0)
 
-	res, err := db.Query("SELECT ID FROM Tasks ORDER BY ID")
+	rows, err := q.RunWith(db.DB).Query()
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 
-	var id int64
+	var t *Task
 
-	for res.Next() {
-		err := res.Scan(&id)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		t := NewTask()
-		t.FindByID(id)
+	for rows.Next() {
+		t = NewTask()
+		t.scan(rows)
 
 		tasks = append(tasks, t)
 	}
 
-	return tasks
+	return tasks, nil
 }

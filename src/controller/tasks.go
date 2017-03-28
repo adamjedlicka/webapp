@@ -117,7 +117,14 @@ func TasksGET(w http.ResponseWriter, r *http.Request) {
 
 	v.L["Title"] = "Tasks"
 
-	v.Vars["Tasks"] = model.GetTasks()
+	q := model.SelectTasks()
+	tasks, err := model.QueryTasks(q)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	v.Vars["Tasks"] = tasks
 
 	v.Render(w)
 }
