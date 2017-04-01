@@ -53,4 +53,8 @@ func NamedExec(query string, arg interface{}) (sql.Result, error) {
 	return database.NamedExec(query, arg)
 }
 
+func Exec(query string, args ...interface{}) (sql.Result, error) {
+	return database.Exec(query, args...)
+}
+
 func Configure(c *Configuration) { conf = c }

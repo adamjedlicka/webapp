@@ -51,7 +51,7 @@ func GetUser(r *http.Request) (model.User, error) {
 		return u, errors.New("No user logged in")
 	}
 
-	err = u.FindByID(id)
+	err = u.FindByID(model.UUID(id))
 	if err != nil {
 		return u, errors.New("No such User in database")
 	}
@@ -59,16 +59,16 @@ func GetUser(r *http.Request) (model.User, error) {
 	return u, nil
 }
 
-func GetUserID(r *http.Request) (string, error) {
+func GetUserID(r *http.Request) (model.UUID, error) {
 	session, err := SessionStore.Get(r, SessionAuth)
 	if err != nil {
-		return "", errors.New("No user logged in")
+		return model.UUID(""), errors.New("No user logged in")
 	}
 
 	id, ok := session.Values["id"].(string)
 	if !ok {
-		return "", errors.New("No user logged in")
+		return model.UUID(""), errors.New("No user logged in")
 	}
 
-	return id, nil
+	return model.UUID(id), nil
 }

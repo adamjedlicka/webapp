@@ -24,14 +24,20 @@ func LoginPOST(w http.ResponseWriter, r *http.Request) {
 
 	session, err := session.SessionStore.Get(r, session.SessionAuth)
 	if err != nil {
-		log.Println(err)
+		http.Error(w, "Corrupted session", http.StatusInternalServerError)
+		return
 	}
 
-	session.Values["id"] = u.ID
+	session.Values["id"] = u.ID.String()
 	session.Values["username"] = u.UserName
 	session.Values["login"] = true
 
-	session.Save(r, w)
+	err = session.Save(r, w)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
 

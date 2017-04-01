@@ -1,16 +1,19 @@
 package model
 
-import "github.com/adamjedlicka/webapp/src/shared/db"
-import "database/sql"
-import "fmt"
+import (
+	"database/sql"
+	"fmt"
+
+	"github.com/adamjedlicka/webapp/src/shared/db"
+)
 
 type User struct {
-	ID           string         `db:"ID"`
+	ID           UUID           `db:"ID"`
 	UserName     string         `db:"UserName"`
 	Password     string         `db:"Password"`
 	FirstName    sql.NullString `db:"FirstName"`
 	LastName     sql.NullString `db:"LastName"`
-	PermissionID string         `db:"Permission_ID"`
+	PermissionID UUID           `db:"Permission_ID"`
 
 	Permission *Permission
 }
@@ -30,8 +33,8 @@ func (u *User) Fill() error {
 	return nil
 }
 
-func (u *User) FindByID(id string) error {
-	return db.Get(u, "SELECT * FROM Users WHERE ID LIKE ?", id+"%")
+func (u *User) FindByID(id UUID) error {
+	return db.Get(u, "SELECT * FROM Users WHERE ID LIKE ?", id.String()+"%")
 }
 
 func (u *User) FindByUserName(username string) error {

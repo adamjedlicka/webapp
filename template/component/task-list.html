@@ -11,7 +11,7 @@
 		{{range $k, $v := .Tasks}}
 		<tr>
 			<td>{{$v.Name}}</td>
-			<td>{{$v.PlanEndDate.Val}}</td>
+			<td>{{$v.PlanEndDate.String}}</td>
 			<td>
 				<div class="btn-group">
 					<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">

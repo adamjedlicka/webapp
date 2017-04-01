@@ -7,15 +7,15 @@ import (
 )
 
 type Project struct {
-	ID          string         `db:"ID"`
+	ID          UUID           `db:"ID"`
 	Name        string         `db:"Name"`
 	Code        string         `db:"Code"`
 	Description sql.NullString `db:"Description"`
 	StartDate   Date           `db:"StartDate"`
 	PlanEndDate NullDate       `db:"PlanEndDate"`
 	EndDate     NullDate       `db:"EndDate"`
-	UserID      string         `db:"User_ID"`
-	FirmID      string         `db:"Firm_ID"`
+	UserID      UUID           `db:"User_ID"`
+	FirmID      UUID           `db:"Firm_ID"`
 }
 
 func (p *Project) Fill() error {

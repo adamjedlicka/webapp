@@ -3,7 +3,7 @@ package model
 import "github.com/adamjedlicka/webapp/src/shared/db"
 
 type Permission struct {
-	ID                string `db:"ID"`
+	ID                UUID   `db:"ID"`
 	Name              string `db:"Name"`
 	IsAdmin           bool   `db:"IsAdmin"`
 	CanManageUsers    bool   `db:"CanManageUsers"`

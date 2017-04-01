@@ -7,7 +7,7 @@ import (
 )
 
 type Firm struct {
-	ID          string         `db:"ID"`
+	ID          UUID           `db:"ID"`
 	Name        string         `db:"Name"`
 	Description sql.NullString `db:"Description"`
 	Email       sql.NullString `db:"Email"`

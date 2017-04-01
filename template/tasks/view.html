@@ -17,7 +17,7 @@
 
 						<div class="form-group col-sm-3 pull-right">
 							<label for="ProjectID">Project</label>
-							<input type="text" class="form-control" name="ProjectID" value="{{if .Task.Project}} {{.Task.Project.ID}} {{end}}" {{.readonly}}
+							<input type="text" class="form-control" name="ProjectID" value="{{if .Task.Project}}{{.Task.Project.ID}}{{end}}" {{.readonly}}
 							required>
 						</div>
 					</div>
@@ -29,8 +29,8 @@
 						</div>
 
 						<div class="form-group col-sm-3 pull-right">
-							<label for="UserID">User</label>
-							<input type="text" class="form-control" name="UserID" value="{{if .Task.Maintainer}} {{.Task.Maintainer.ID}} {{end}}" {{.readonly}}>
+							<label for="MaintainerID">Maintainer</label>
+							<input type="text" class="form-control" name="MaintainerID" value="{{if .Task.Maintainer}}{{.Task.Maintainer.ID}}{{end}}" {{.readonly}}>
 						</div>
 					</div>
 
@@ -46,17 +46,17 @@
 					<div class="row">
 						<div class="form-group col-sm-4">
 							<label for="StartDate">Start date</label>
-							<input type="date" class="form-control" name="StartDate" value="{{.Task.StartDate}}" {{.readonly}} required>
+							<input type="date" class="form-control" name="StartDate" value="{{.Task.StartDate.String}}" {{.readonly}} required>
 						</div>
 
 						<div class="form-group col-sm-4">
 							<label for="PlanEndDate">Planned end date</label>
-							<input type="date" class="form-control" name="PlanEndDate" value="{{.Task.PlanEndDate}}" {{.readonly}}>
+							<input type="date" class="form-control" name="PlanEndDate" value="{{.Task.PlanEndDate.String}}" {{.readonly}}>
 						</div>
 
 						<div class="form-group col-sm-4">
 							<label for="EndDate">End date</label>
-							<input type="date" class="form-control" name="EndDate" value="{{.Task.EndDate}}" {{.readonly}}>
+							<input type="date" class="form-control" name="EndDate" value="{{.Task.EndDate.String}}" {{.readonly}}>
 						</div>
 					</div>
 
@@ -67,12 +67,12 @@
 							{{else if eq .Action "edit"}}
 							<div class="btn-group pull-right" role="group">
 								<a href="/tasks/view/{{.Task.ID}}" class="btn btn-default">Cancel</a>
-								<button type="submit" class="btn btn-default btn-success" formaction="/tasks" formmethod="POST">Save</button>
+								<button type="submit" class="btn btn-default btn-success" formaction="/tasks/save" formmethod="POST">Save</button>
 							</div>
 							{{else if eq .Action "new"}}
 							<div class="btn-group pull-right" role="group">
 								<a href="/tasks" class="btn btn-default">Cancel</a>
-								<button type="submit" class="btn btn-default btn-success" formaction="/tasks" formmethod="POST">Create</button>
+								<button type="submit" class="btn btn-default btn-success" formaction="/tasks/save" formmethod="POST">Create</button>
 							</div>
 							{{end}}
 						</div>
