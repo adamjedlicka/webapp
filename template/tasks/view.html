@@ -1,5 +1,4 @@
 {{block "Title" .}}Tasks - {{.Action}}{{end}}
-
 {{define "content"}}
 <div class="container-fuild">
 	<div class="row">
@@ -17,8 +16,11 @@
 
 						<div class="form-group col-sm-3 pull-right">
 							<label for="ProjectID">Project</label>
-							<input type="text" class="form-control" name="ProjectID" value="{{if .Task.Project}}{{.Task.Project.ID}}{{end}}" {{.readonly}}
-							required>
+							<select name="ProjectID" class="form-control" {{.readonly}}>
+								{{range $k, $v := .Projects}}
+								<option value="{{$v.ID.String}}">{{$v.Name}}</option>
+								{{end}}
+							</select>
 						</div>
 					</div>
 
@@ -30,7 +32,11 @@
 
 						<div class="form-group col-sm-3 pull-right">
 							<label for="MaintainerID">Maintainer</label>
-							<input type="text" class="form-control" name="MaintainerID" value="{{if .Task.Maintainer}}{{.Task.Maintainer.ID}}{{end}}" {{.readonly}}>
+							<select name="MaintainerID" class="form-control" {{.readonly}}>
+								{{range $k, $v := .Users}}
+								<option value="{{$v.ID.String}}">{{$v.UserName}}</option>
+								{{end}}
+							</select>
 						</div>
 					</div>
 

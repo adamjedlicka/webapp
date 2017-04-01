@@ -35,7 +35,15 @@ func TasksViewGET(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	users := []model.User{}
+	db.Select(&users, "SELECT * FROM Users")
+
+	projects := []model.Project{}
+	db.Select(&projects, "SELECT * FROM Projects")
+
 	v.Vars["Task"] = task
+	v.Vars["Users"] = users
+	v.Vars["Projects"] = projects
 	v.Vars["Action"] = "view"
 	v.Vars["readonly"] = "readonly"
 
@@ -53,7 +61,15 @@ func TasksEditGET(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	users := []model.User{}
+	db.Select(&users, "SELECT * FROM Users")
+
+	projects := []model.Project{}
+	db.Select(&projects, "SELECT * FROM Projects")
+
 	v.Vars["Task"] = task
+	v.Vars["Users"] = users
+	v.Vars["Projects"] = projects
 	v.Vars["Action"] = "edit"
 
 	v.Render(w)
@@ -63,6 +79,14 @@ func TasksNewGET(w http.ResponseWriter, r *http.Request) {
 	v := view.New(r, "Tasks")
 	v.AppendTemplates("tasks/view")
 
+	users := []model.User{}
+	db.Select(&users, "SELECT * FROM Users")
+
+	projects := []model.Project{}
+	db.Select(&projects, "SELECT * FROM Projects")
+
+	v.Vars["Users"] = users
+	v.Vars["Projects"] = projects
 	v.Vars["Action"] = "new"
 
 	v.Render(w)
