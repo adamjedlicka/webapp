@@ -2,18 +2,16 @@
 <table class="table table-striped table-hover" style="margin: 0;">
 	<thead>
 		<tr>
-			<th>ID</th>
 			<th>Name</th>
-			<th>Code</th>
+			<th>Planed end date</th>
 			<th>Action</th>
 		</tr>
 	</thead>
 	<tbody>
 		{{range $k, $v := .Tasks}}
 		<tr>
-			<td>{{$v.ID}}</td>
 			<td>{{$v.Name}}</td>
-			<td>{{$v.Code}}</td>
+			<td>{{$v.PlanEndDate.Val}}</td>
 			<td>
 				<div class="btn-group">
 					<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">

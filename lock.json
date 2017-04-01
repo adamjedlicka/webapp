@@ -1,14 +1,6 @@
 {
-    "memo": "0d014e53f3252683bdc1a53f6b644ec9e957db4fcbd8d98d5597371991f8c71d",
+    "memo": "822d7d5d2f55e6b47c4b4aed30ed8d2a21dd25e572dc5134e71dedafbab0355f",
     "projects": [
-        {
-            "name": "github.com/Masterminds/squirrel",
-            "branch": "v1",
-            "revision": "20f192218cf52a73397fa2df45bdda720f3e47c8",
-            "packages": [
-                "."
-            ]
-        },
         {
             "name": "github.com/go-sql-driver/mysql",
             "version": "v1.3",
@@ -50,19 +42,12 @@
             ]
         },
         {
-            "name": "github.com/lann/builder",
-            "branch": "master",
-            "revision": "f22ce00fd9394014049dad11c244859432bd6820",
+            "name": "github.com/jmoiron/sqlx",
+            "version": "sqlx-v1.1",
+            "revision": "69738bd209812c5a381786011aff17944a384554",
             "packages": [
-                "."
-            ]
-        },
-        {
-            "name": "github.com/lann/ps",
-            "branch": "master",
-            "revision": "62de8c46ede02a7675c4c79c84883eb164cb71e3",
-            "packages": [
-                "."
+                ".",
+                "reflectx"
             ]
         }
     ]

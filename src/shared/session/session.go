@@ -38,36 +38,36 @@ func IsLogin(r *http.Request) bool {
 	return val
 }
 
-func GetUser(r *http.Request) (*model.User, error) {
-	u := model.NewUser()
+func GetUser(r *http.Request) (model.User, error) {
+	u := model.User{}
 
 	session, err := SessionStore.Get(r, SessionAuth)
 	if err != nil {
-		return nil, errors.New("No user logged in")
+		return u, errors.New("No user logged in")
 	}
 
-	id, ok := session.Values["id"].(int64)
+	id, ok := session.Values["id"].(string)
 	if !ok {
-		return nil, errors.New("No user logged in")
+		return u, errors.New("No user logged in")
 	}
 
 	err = u.FindByID(id)
 	if err != nil {
-		return nil, errors.New("No such User in database")
+		return u, errors.New("No such User in database")
 	}
 
 	return u, nil
 }
 
-func GetUserID(r *http.Request) (int64, error) {
+func GetUserID(r *http.Request) (string, error) {
 	session, err := SessionStore.Get(r, SessionAuth)
 	if err != nil {
-		return -1, errors.New("No user logged in")
+		return "", errors.New("No user logged in")
 	}
 
-	id, ok := session.Values["id"].(int64)
+	id, ok := session.Values["id"].(string)
 	if !ok {
-		return -1, errors.New("No user logged in")
+		return "", errors.New("No user logged in")
 	}
 
 	return id, nil

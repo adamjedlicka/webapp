@@ -20,15 +20,6 @@ func New() http.Handler {
 
 	r.HandleFunc("/", controller.IndexGET).Methods("GET")
 
-	r.Handle("/users", middleware.MustLogin(http.HandlerFunc(controller.UsersGET))).Methods("GET")
-	r.Handle("/users/new", middleware.MustLogin(http.HandlerFunc(controller.UsersNewGET))).Methods("GET")
-	r.Handle("/users/new", middleware.MustLogin(http.HandlerFunc(controller.UsersNewPOST))).Methods("POST")
-
-	r.Handle("/tasks", middleware.MustLogin(http.HandlerFunc(controller.TasksGET))).Methods("GET")
-	r.Handle("/tasks/new", middleware.MustLogin(http.HandlerFunc(controller.TasksNewGET))).Methods("GET")
-	r.Handle("/tasks/{action}/{id:[0-9]+}", middleware.MustLogin(http.HandlerFunc(controller.TasksActionGET))).Methods("GET")
-	r.Handle("/tasks", middleware.MustLogin(http.HandlerFunc(controller.TasksPOST))).Methods("POST")
-
 	r.HandleFunc("/login", controller.LoginPOST).Methods("POST")
 	r.HandleFunc("/logout", controller.LogoutGET).Methods("GET")
 
