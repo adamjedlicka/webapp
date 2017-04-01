@@ -23,6 +23,9 @@ func New() http.Handler {
 	r.HandleFunc("/login", controller.LoginPOST).Methods("POST")
 	r.HandleFunc("/logout", controller.LogoutGET).Methods("GET")
 
+	r.Handle("/tasks", middleware.MustLogin(http.HandlerFunc(controller.TasksGET))).Methods("GET")
+	r.Handle("/tasks/view/{id}", middleware.MustLogin(http.HandlerFunc(controller.TasksViewGET))).Methods("GET")
+
 	// serve files from ./static/ directory without any special routing
 	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("./static/"))))
 

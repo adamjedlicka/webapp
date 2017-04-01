@@ -1,22 +1,18 @@
 {{block "Title" .}}Tasks - {{.Action}}{{end}}
+
 {{define "content"}}
 <div class="container-fuild">
 	<div class="row">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h3 class="panel-title">{{.Task.Code}} - {{.Task.Name}}</h3>
+				<h3 class="panel-title">{{.Task.Name}}</h3>
 			</div>
 			<div class="panel-body">
 				<form>
 					<div class="row">
-						<div class="form-group col-sm-3">
+						<div class="form-group col-sm-4">
 							<label for="ID">ID</label>
 							<input type="text" class="form-control" name="ID" value="{{.Task.ID}}" readonly required>
-						</div>
-
-						<div class="form-group col-sm-3">
-							<label for="Code">Code</label>
-							<input type="text" class="form-control" name="Code" value="{{.Task.Code}}" {{.readonly}} required>
 						</div>
 
 						<div class="form-group col-sm-3 pull-right">
@@ -34,7 +30,7 @@
 
 						<div class="form-group col-sm-3 pull-right">
 							<label for="UserID">User</label>
-							<input type="text" class="form-control" name="UserID" value="{{if .Task.User}} {{.Task.User.ID}} {{end}}" {{.readonly}}>
+							<input type="text" class="form-control" name="UserID" value="{{if .Task.Maintainer}} {{.Task.Maintainer.ID}} {{end}}" {{.readonly}}>
 						</div>
 					</div>
 
@@ -42,7 +38,7 @@
 						<div class="form-group">
 							<div class="col-sm-12">
 								<label for="Description">Description</label>
-								<textarea class="form-control" name="Description" rows="5" style="resize: none;" {{.readonly}}>{{.Task.Description}}</textarea>
+								<textarea class="form-control" name="Description" rows="5" style="resize: none;" {{.readonly}}>{{.Task.Description.String}}</textarea>
 							</div>
 						</div>
 					</div>

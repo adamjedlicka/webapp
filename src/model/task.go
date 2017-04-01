@@ -16,10 +16,31 @@ type Task struct {
 	MaintainerID string         `db:"User_ID_Maintainer"`
 	WorkerID     sql.NullString `db:"User_ID_Worker"`
 	ProjectID    string         `db:"Project_ID"`
+
+	Maintainer *User
+	Worker     *User
+	Project    *Project
 }
 
 func (t *Task) Fill() error {
-	return db.Get("SELECT * FROM Tasks WHERE ID = ?", t.ID)
+	err := db.Get(t, "SELECT * FROM Tasks WHERE ID = ?", t.ID)
+	if err != nil {
+		return err
+	}
+
+	t.Maintainer = &User{ID: t.MaintainerID}
+	err = t.Maintainer.Fill()
+	if err != nil {
+		return err
+	}
+
+	t.Project = &Project{ID: t.ProjectID}
+	err = t.Project.Fill()
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (t *Task) Save() error {

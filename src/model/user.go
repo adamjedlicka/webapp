@@ -12,7 +12,7 @@ type User struct {
 	LastName     sql.NullString `db:"LastName"`
 	PermissionID string         `db:"Permission_ID"`
 
-	Permission Permission
+	Permission *Permission
 }
 
 func (u *User) Fill() error {
@@ -21,7 +21,7 @@ func (u *User) Fill() error {
 		return fmt.Errorf("Couldn't fill User with ID %s: %v", u.ID, err)
 	}
 
-	u.Permission.ID = u.PermissionID
+	u.Permission = &Permission{ID: u.PermissionID}
 	err = u.Permission.Fill()
 	if err != nil {
 		return fmt.Errorf("Couldn't fill User with ID %s: %v", u.ID, err)

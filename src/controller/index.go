@@ -10,8 +10,8 @@ import (
 )
 
 func IndexGET(w http.ResponseWriter, r *http.Request) {
-	v := view.New(r, "index")
-	v.AppendTemplates("task/list")
+	v := view.New(r, "Home")
+	v.AppendTemplates("index", "component/task-list")
 
 	if session.IsLogin(r) {
 		userID, err := session.GetUserID(r)

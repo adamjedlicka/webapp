@@ -24,8 +24,9 @@ func New(r *http.Request, name string) *View {
 	v.Vars = make(map[string]interface{})
 	v.L = make(map[string]string)
 	v.templates = make([]string, 0)
-	v.templates = append(v.templates, templateBase, v.Name)
+	v.templates = append(v.templates, templateBase)
 
+	v.Vars["Name"] = v.Name
 	v.Vars["IsLogin"] = session.IsLogin(r)
 	if v.Vars["IsLogin"].(bool) {
 		u, err := session.GetUser(r)
