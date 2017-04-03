@@ -45,7 +45,9 @@ func TasksViewGET(w http.ResponseWriter, r *http.Request) {
 	v.Vars["Users"] = users
 	v.Vars["Projects"] = projects
 	v.Vars["Action"] = "view"
+
 	v.Vars["readonly"] = "readonly"
+	v.Vars["disabled"] = "disabled"
 
 	v.Render(w)
 }
@@ -129,5 +131,8 @@ func TasksSavePOST(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	http.Redirect(w, r, "/tasks", http.StatusSeeOther)
+	if task.ID.String() == "" {
+		http.Redirect(w, r, "/tasks", http.StatusSeeOther)
+	}
+	http.Redirect(w, r, "/tasks/view/"+task.ID.String(), http.StatusSeeOther)
 }
