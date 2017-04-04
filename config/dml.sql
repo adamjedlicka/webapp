@@ -17,12 +17,17 @@ INSERT INTO Firms (ID, Name)
 	VALUES (UUID(), "Google a.s.");
 
 INSERT INTO Projects (ID, Name, Code, StartDate, User_ID, Firm_ID)
-	VALUES (UUID(), "Vyvoj systemu ISSZP", "ISSZP", CURDATE(),
+	VALUES (UUID(), "Vyvoj systemu ISSZP", "VYVO-IS", CURDATE(),
 		(SELECT ID FROM Users WHERE UserName = "jedliad1"),
 		(SELECT ID FROM Firms WHERE Name = "SoftCorp s.r.o."));
+
+INSERT INTO Projects (ID, Name, Code, StartDate, User_ID, Firm_ID)
+	VALUES (UUID(), "Prodat ISSZP", "PROD-IS", CURDATE(),
+		(SELECT ID FROM Users WHERE UserName = "jedliad1"),
+		(SELECT ID FROM Firms WHERE Name = "Google a.s."));
 
 INSERT INTO Tasks (ID, Name, StartDate, PlanEndDate, User_ID_Maintainer, User_ID_Worker, Project_ID)
 	VALUES (UUID(), "Naplnit aplikaci zakladnimy daty", CURDATE(), "2017-04-20",
 		(SELECT ID FROM Users WHERE UserName = "admin"),
 		(SELECT ID FROM Users WHERE UserName = "admin"),
-		(SELECT ID From Projects WHERE Code = "ISSZP"));
+		(SELECT ID From Projects WHERE Code = "VYVO-IS"));

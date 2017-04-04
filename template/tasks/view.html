@@ -16,8 +16,10 @@
 
 						<div class="form-group col-sm-3 pull-right">
 							<label for="ProjectID">Project</label>
-							<option selected hidden value="{{.Task.ProjectID.String}}">{{.Task.Project.Name}}</option>
-							<select name="ProjectID" class="form-control disabled" {{.disabled}} required>
+							<select id="SelectProjectID" name="ProjectID" class="form-control disabled" {{.disabled}} required>
+								{{if .Task.Project}}
+								<option selected hidden value="{{.Task.Project.ID.String}}">{{.Task.Project.Name}}</option>
+								{{end}}
 								{{range $k, $v := .Projects}}
 								<option value="{{$v.ID.String}}">{{$v.Name}}</option>
 								{{end}}
@@ -34,7 +36,11 @@
 						<div class="form-group col-sm-3 pull-right">
 							<label for="MaintainerID">Maintainer</label>
 							<select name="MaintainerID" class="form-control" {{.disabled}} required>
-								<option selected hidden value="{{.Task.MaintainerID.String}}">{{.Task.Maintainer.UserName}}</option>
+								{{if .User}}
+								<option selected hidden value="{{.User.ID.String}}">{{.User.UserName}}</option>
+								{{else}}
+								<option selected hidden value="{{.Task.Maintainer.ID.String}}">{{.Task.Maintainer.UserName}}</option>
+								{{end}}
 								{{range $k, $v := .Users}}
 								<option value="{{$v.ID.String}}">{{$v.UserName}}</option>
 								{{end}}

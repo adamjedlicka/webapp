@@ -2,6 +2,7 @@ package controller
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/adamjedlicka/webapp/src/model"
 	"github.com/adamjedlicka/webapp/src/shared/db"
@@ -87,6 +88,9 @@ func TasksNewGET(w http.ResponseWriter, r *http.Request) {
 	projects := []model.Project{}
 	db.Select(&projects, "SELECT * FROM Projects")
 
+	v.Vars["Task"] = model.Task{
+		StartDate: model.Date(time.Now().String()[:10]),
+	}
 	v.Vars["Users"] = users
 	v.Vars["Projects"] = projects
 	v.Vars["Action"] = "new"

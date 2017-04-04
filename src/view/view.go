@@ -3,6 +3,7 @@ package view
 import (
 	"html/template"
 	"net/http"
+	"time"
 
 	"github.com/adamjedlicka/webapp/src/shared/session"
 )
@@ -36,6 +37,9 @@ func New(r *http.Request, name string) *View {
 
 		v.Vars["User"] = u
 	}
+
+	// sets var Date to the format yyyy-mm-dd
+	v.Vars["Date"] = time.Now().String()[:10]
 
 	return v
 }
